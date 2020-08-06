@@ -81,7 +81,6 @@ public class IndexController {
 		row.createCell(0).setCellValue("用户Id");//为第一个单元格设值
 		row.createCell(1).setCellValue("用户名");//为第二个单元格设值
 		row.createCell(2).setCellValue("用户密码");//为第三个单元格设值
-		row.createCell(3).setCellValue("测试");
 
 		for (int i = 0; i < users.size(); i++) {
 			row = sheet.createRow(i + 2);
