@@ -18,8 +18,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -102,11 +106,40 @@ public class IndexController {
         for (int i = 0; i <= users.size() + 2; i++) {
             sheet.autoSizeColumn(i);
         }
-
+        /**
+         * 下载到当前页面
+         */
         response.setContentType("application/vnd.ms-excel;charset=utf-8");
         OutputStream os = response.getOutputStream();
         //默认Excel名称
-        response.setHeader("Content-disposition", "attachment;filename=user.xls");
+        response.setHeader("Content-disposition", "attachment;filename=users.xls");
+        wb.write(os);
+        /**
+         * 下载到指定文件夹内
+         */
+        String resultName = "";
+        String ctxPath = "D://upFiles";
+        String name = new SimpleDateFormat("ddHHmmss").format(new Date());
+        String fileName = name + "users.xlsx";
+        String bizPath = "files";
+        String nowday = new SimpleDateFormat("yyyyMMdd").format(new Date());
+        File file = new File(ctxPath + File.separator + bizPath + File.separator + nowday);
+        if (!file.exists()) {
+            file.mkdirs();// 创建文件根目录
+        }
+        String savePath = file.getPath() + File.separator + fileName;
+        resultName = bizPath + File.separator + nowday + File.separator + fileName;
+        if (resultName.contains("\\")) {
+            resultName = resultName.replace("\\", "/");
+        }
+        System.out.print(resultName);
+        System.out.print(savePath);
+        // 响应到客户端需要下面注释的代码
+//            this.setResponseHeader(response, filename);
+//            OutputStream os = response.getOutputStream(); //响应到服务器
+        // 保存到当前路径savePath
+        os = new FileOutputStream(savePath);
+
         wb.write(os);
         os.flush();
         os.close();
