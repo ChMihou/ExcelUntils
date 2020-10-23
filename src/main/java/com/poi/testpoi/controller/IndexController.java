@@ -77,19 +77,19 @@ public class IndexController {
          * 第一个table_name 表名字
          * 第二个table_name 数据库名称
          * */
-		//创建第二行表格
+        //创建第二行表格
         row = sheet.createRow(1);
-		//设置行高
+        //设置行高
         row.setHeight((short) (22.50 * 20));
-		//为第一个单元格设值
+        //为第一个单元格设值
         row.createCell(0).setCellValue("用户Id");
-		//为第二个单元格设值
+        //为第二个单元格设值
         row.createCell(1).setCellValue("用户名");
-		//为第三个单元格设值
+        //为第三个单元格设值
         row.createCell(2).setCellValue("用户密码");
 
         for (int i = 0; i < users.size(); i++) {
-        	//创建第i+2行单元表格
+            //创建第i+2行单元表格
             row = sheet.createRow(i + 2);
             User user = users.get(i);
             row.createCell(0).setCellValue(user.getUid());
@@ -99,13 +99,13 @@ public class IndexController {
         //设置默认行高
         sheet.setDefaultRowHeight((short) (16.5 * 20));
         //列宽自适应，
-        for (int i = 0; i <= users.size()+2; i++) {
+        for (int i = 0; i <= users.size() + 2; i++) {
             sheet.autoSizeColumn(i);
         }
 
         response.setContentType("application/vnd.ms-excel;charset=utf-8");
         OutputStream os = response.getOutputStream();
-		//默认Excel名称
+        //默认Excel名称
         response.setHeader("Content-disposition", "attachment;filename=user.xls");
         wb.write(os);
         os.flush();
